@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>정기예금 실질 구매력 계산기</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <p class="eyebrow">Mock data calculator</p>
+        <h1>정기예금의 미래 금액을 오늘의 구매력으로 확인하세요</h1>
+      </section>
+
+      <section class="workspace" aria-label="정기예금 실질 구매력 계산기">
+        <form id="calculator-form" class="input-panel interactive-card">
+          <div class="panel-heading">
+            <h2>입력값</h2>
+            <p>금리와 CPI는 현재 mock 데이터를 사용합니다.</p>
+          </div>
+
+          <div class="field-grid">
+            <label>
+              현재 원금
+              <input id="principal" name="principal" type="number" min="0" step="10000" value="10000000" />
+            </label>
+
+            <label>
+              월 납입금
+              <input id="monthly-deposit" name="monthlyDeposit" type="number" min="0" step="10000" value="500000" />
+            </label>
+
+            <label>
+              시작 시점
+              <input id="start-date" name="startDate" type="month" value="2026-01" />
+            </label>
+
+            <label>
+              종료 시점
+              <input id="end-date" name="endDate" type="month" value="2026-12" />
+            </label>
+
+            <label>
+              은행명
+              <select id="bank-name" name="bankName">
+                <option value="shinhan">신한은행</option>
+                <option value="kb">국민은행</option>
+                <option value="hana">하나은행</option>
+                <option value="default">기본은행</option>
+              </select>
+            </label>
+
+            <label>
+              상품명
+              <select id="product-name" name="productName">
+                <option value="term-deposit">정기예금</option>
+              </select>
+            </label>
+          </div>
+
+          <fieldset class="rate-mode">
+            <legend>연 이율 변환 방식</legend>
+            <label>
+              <input type="radio" name="rateMode" value="compound" checked />
+              월복리 환산
+            </label>
+            <label>
+              <input type="radio" name="rateMode" value="simple" />
+              단순 12분할
+            </label>
+          </fieldset>
+
+          <p id="error-message" class="error-message" role="alert"></p>
+
+          <button type="submit">계산하기</button>
+        </form>
+
+        <section class="results-panel interactive-card spotlight-panel" aria-live="polite">
+          <div class="result-heading">
+            <div>
+              <span>실질 구매력</span>
+              <strong id="real-purchasing-power">0원</strong>
+            </div>
+            <p id="period-detail">기간: -</p>
+          </div>
+
+          <div class="primary-metrics">
+            <article>
+              <span>실질 수익</span>
+              <strong id="real-profit">0원</strong>
+            </article>
+            <article>
+              <span>명목 미래 금액</span>
+              <strong id="nominal-future-value">0원</strong>
+            </article>
+          </div>
+
+          <div class="metric-grid">
+            <article>
+              <span>총 납입 원금</span>
+              <strong id="total-deposit">0원</strong>
+            </article>
+            <article>
+              <span>명목 수익</span>
+              <strong id="nominal-profit">0원</strong>
+            </article>
+            <article>
+              <span>누적 할인계수</span>
+              <strong id="discount-factor">0.000000</strong>
+            </article>
+          </div>
+
+          <div class="details-row">
+            <p id="rate-detail">월 이율: -</p>
+            <p id="inflation-detail">월 물가상승률: -</p>
+          </div>
+
+          <div class="table-section">
+            <h2>월별 적용 데이터</h2>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>월</th>
+                    <th>월 이율</th>
+                    <th>CPI</th>
+                    <th>물가상승률</th>
+                    <th>납입금</th>
+                  </tr>
+                </thead>
+                <tbody id="monthly-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
